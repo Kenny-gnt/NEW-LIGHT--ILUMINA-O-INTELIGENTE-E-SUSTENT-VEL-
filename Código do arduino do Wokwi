@@ -1,0 +1,93 @@
+
+// New Light - Iluminação Inteligente Sustentável - Simulação Wokwi
+// Global Solution 2025 - Ciências da Computação
+
+
+const int pirPin = 2;   // Sensor PIR
+const int ldrPin = A0;  // Sensor LDR
+const int ledPin = 9;   // LED (lâmpada simulada)
+
+
+bool presence = false;
+bool lightOn = false;
+
+
+unsigned long lastPresence = 0;
+unsigned long lastAbsence = 0;
+
+
+// Parâmetros ajustáveis
+const unsigned long delayOn = 2000;   // tempo para confirmar presença
+const unsigned long delayOff = 8000;  // tempo para desligar após ausência
+
+
+// O limiar vai se ajustar automaticamente após alguns segundos
+int ldrThreshold = 500;
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(pirPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
+
+
+  Serial.println("timestamp_ms,pir,ldr,led");
+}
+
+
+void loop() {
+  int pir = digitalRead(pirPin);
+  int ldr = analogRead(ldrPin);
+  unsigned long now = millis();
+
+
+  // Mostra os valores brutos sempre (para calibrar)
+  Serial.print(now);
+  Serial.print(",");
+  Serial.print(pir);
+  Serial.print(",");
+  Serial.print(ldr);
+  Serial.print(",");
+  Serial.println(lightOn ? 1 : 0);
+
+
+  // Calibração automática do LDR
+  // Ajusta o limiar com base na média das leituras nos primeiros 5 segundos
+  static unsigned long startTime = millis();
+  static long ldrSum = 0;
+  static int ldrCount = 0;
+
+
+  if (now - startTime < 5000) {
+    ldrSum += ldr;
+    ldrCount++;
+    ldrThreshold = (ldrSum / ldrCount) + 100; // adiciona margem para escuro
+  }
+
+
+  // Lógica de presença
+  if (pir == HIGH) {
+    lastPresence = now;
+    presence = true;
+  } else if (presence && (now - lastPresence > delayOff)) {
+    presence = false;
+  }
+
+
+  //  Lógica de luz
+  bool dark = (ldr > ldrThreshold); // se escuro, true
+  bool shouldBeOn = presence && dark;
+
+
+  if (shouldBeOn != lightOn) {
+    lightOn = shouldBeOn;
+    digitalWrite(ledPin, lightOn ? HIGH : LOW);
+  }
+
+
+  delay(500);
+}
+
+
+
