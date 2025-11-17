@@ -21,6 +21,21 @@ O comportamento segue a seguinte lógica:
 Durante a execução, o sistema envia dados como tempo, níveis de luminosidade e estado do LED para o Serial Monitor, permitindo registrar e analisar o comportamento da automação.
 
 ----------------------------------------------------------
+# TECNOLOGIAS UTILIZADAS
+
+- Arduino UNO — microcontrolador central do sistema.
+
+- Sensor PIR — responsável pela detecção de movimento.
+
+- Sensor LDR — mede a intensidade da luz ambiente.
+
+- LED — representa a lâmpada controlada pelo sistema.
+
+- Simulador Wokwi — utilizado para montar e testar o circuito virtualmente.
+
+- Python (Pandas) — usado para analisar os dados gerados pela simulação e calcular consumo, economia e emissão de CO₂ evitada.
+
+----------------------------------------------------------
 
 # ORIENTAÇÃO DE EXECUÇÃO
 
@@ -96,8 +111,8 @@ pip install pandas
 Crie uma pasta assim:
 
 /projeto-iluminacao/
-│  log.csv
-│  analise.py
+  log.csv
+  analise.py
 
 O arquivo analise.py deve estar no mesmo diretório do log.csv.
 Se estiver em pastas diferentes, o script não encontra o arquivo.
@@ -129,3 +144,15 @@ O que cada cálculo significa:
 - Economia potencial → quanto teria sido gasto sem automação
 
 - CO₂ evitado → impacto ambiental direto
+
+ Assim é possível visualizar, de forma prática, o impacto da automação no uso eficiente de energia elétrica.
+
+----------------------------------------------------------
+
+# VIDEO
+https://youtu.be/aKDQQKuJfvQ?si=s6nFaqnL33_4pyir
+
+----------------------------------------------------------
+
+# WOKWI
+https://wokwi.com/projects/447330973862849537
