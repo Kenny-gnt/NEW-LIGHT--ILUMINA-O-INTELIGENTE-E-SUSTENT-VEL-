@@ -1,4 +1,4 @@
-# NEW-LIGHT--ILUMINA-O-INTELIGENTE-E-SUSTENT-VEL-
+# NEW-LIGHT--ILUMINA-O-INTELIGENTE-E-SUSTENTAVEL-
 
 # O projeto New Light foi desenvolvido com o objetivo de aplicar conceitos de automação e sustentabilidade por meio da programação com Arduino. A proposta busca solucionar um problema comum do dia a dia: o desperdício de energia elétrica causado por luzes que permanecem acesas sem necessidade. Com o uso de sensores e lógica programada, o sistema consegue controlar automaticamente a iluminação, tornando o ambiente mais eficiente e econômico.
 
