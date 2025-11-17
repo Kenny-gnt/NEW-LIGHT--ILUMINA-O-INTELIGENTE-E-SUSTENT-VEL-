@@ -1,0 +1,52 @@
+# Projeto: New LIght
+# Curso: Ciências da Computação - Global Solution 2025
+
+
+import pandas as pd
+
+
+CSV_FILE = "log.csv"
+POTENCIA_LAMPADA_W = 60
+TARIFA_R_KWH = 0.80
+FATOR_CO2 = 0.09
+
+
+df = pd.read_csv(CSV_FILE)
+df.columns = [c.strip().lower() for c in df.columns]
+
+
+df = df.sort_values('timestamp_ms')
+
+
+df['dt_s'] = df['timestamp_ms'].diff().fillna(0) / 1000.0
+
+
+
+tempo_total_s = df['timestamp_ms'].max() / 1000.0
+tempo_total_h = tempo_total_s / 3600.0
+
+
+tempo_ligado_s = (df['led'] * df['dt_s']).sum()
+tempo_ligado_h = tempo_ligado_s / 3600.0
+
+
+consumo_kwh = (POTENCIA_LAMPADA_W / 1000.0) * tempo_ligado_h
+consumo_base_kwh = (POTENCIA_LAMPADA_W / 1000.0) * tempo_total_h
+economia_kwh = consumo_base_kwh - consumo_kwh
+
+
+custo_r = consumo_kwh * TARIFA_R_KWH
+economia_r = economia_kwh * TARIFA_R_KWH
+co2_ev_kg = economia_kwh * FATOR_CO2
+
+
+print("\nRELATÓRIO DE ANÁLISE ENERGÉTICA\n")
+print(f"Tempo total da simulação: {tempo_total_h:.2f} horas")
+print(f"Tempo com luz ligada: {tempo_ligado_h:.2f} horas")
+print(f"Consumo estimado: {consumo_kwh:.4f} kWh")
+print(f"Custo estimado: R$ {custo_r:.2f}")
+print(f"Economia de energia: {economia_kwh:.4f} kWh")
+print(f"Economia em custo: R$ {economia_r:.2f}")
+print(f"Emissão de CO₂ evitada: {co2_ev_kg:.3f} kg")
+print("Análise concluída com sucesso.")
+
